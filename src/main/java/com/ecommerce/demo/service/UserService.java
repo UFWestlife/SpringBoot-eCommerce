@@ -62,7 +62,7 @@ public class UserService {
     public Response deleteUser(int id) {
         if(userDao.findById(id).get() != null) {
             userDao.deleteById(id);
-            return new Response(true);
+            return new Response(true, "User with id="+id+" was deleted successfully.");
         }else {
             return new Response(false, "User is not found!");
         }
