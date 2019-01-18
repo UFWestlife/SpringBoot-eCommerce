@@ -25,6 +25,9 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
 
     // TODO: 2019-01-12 Need to config Security!!! 
 //    @Autowired
@@ -71,22 +74,16 @@ public class UserService {
 
     public Response register(User user) {
         try {
-            user.setPassword(user.getPassword());
-
-            // TODO: 2019-01-12 Using Security.PasswordEncoder and User profile entity
-//            user.setPassword(passwordEncoder.encode(user.getPassword()));
-//            List<UserProfile> profiles = new ArrayList<UserProfile>();
-//            profiles.add(new UserProfile(user.getId()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            List<UserProfile> profiles = new ArrayList<UserProfile>();
+            profiles.add(new UserProfile(user.getId()));
 //            user.setProfiles(profiles);
-
             userDao.save(user);
-//            emailService.sendSimpleMessage(user.getName(), "Account Created", user.getName() +
-//                    ", your account is created!");
-            String msg = "Account Created: "+user.getUsername()+
-                    ", your account is created!";
-            return new Response(true, msg);
-        }catch (Exception e) {
-            LOGGER.error((e.getMessage()));
+            // TODO: send email. assume username is the email for now
+//            emailService.sendSimpleMessage(user.getUsername(), "Account Created", user.getUsername() + ", your account is created!");
+            return new Response(true);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             return new Response(false, 400, e.getMessage());
         }
     }
