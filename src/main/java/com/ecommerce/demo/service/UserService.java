@@ -31,9 +31,7 @@ public class UserService {
 
     // TODO: 2019-01-12 Need to config Security!!! 
 //    @Autowired
-//    PasswordEncoder passwordEncoder;
-    @Autowired
-    EmailService emailService;
+//    PasswordEncoder passwordEncoder;@Autowired
 
 
     
