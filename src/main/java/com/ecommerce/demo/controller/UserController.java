@@ -7,35 +7,68 @@ import com.ecommerce.demo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(description = "User APIs")
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    @Autowired
+    UserDao userDao;
 
     @Autowired
-    private UserService UserService;
+    UserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
-    //ReadAll
+
+
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping
+    public List<User> getUsers(){
+        return userDao.findAll();
+    }
+
+
+    @PostMapping
+    public Response addUser(@Valid @RequestBody User user) {
+        return userService.register(user);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    @PutMapping
+    public Response changeUser(@RequestBody User user, Authentication authentication) {
+        return userService.changePassword(user, authentication);
+    }
+
+    @DeleteMapping("/{id}")
+    public Response deleteUser(@PathVariable int id) {
+        return userService.deleteUser(id);
+    }
+
+
+
+
+
+
+    /****** No Auth Method *******/
+/*
+    ReadAll
     @ApiOperation(value = "View All User" ,  notes="View All Users and Return as List.")
     @GetMapping
     public String readAll() {
         List list = UserService.readAllUser();
         return list.toString();
     }
-
-
-    //Update
-//    public int updateUser(User user) {
-//        // TODO: 2019-01-09 Pass in parameters, hard code now.
-//        UserService.updateUser(user);
-//        return 0;
-//    }
-
 
     //Register/Insert/Add new user
     // TODO: 2019-01-13 Authentication && Email Service
@@ -46,14 +79,12 @@ public class UserController {
     }
 
 
-
-
-
     //Delete
     @ApiOperation(value = "Delete User" ,  notes="Delete User by user_id")
     @DeleteMapping("/{id}")
     public Response deleteUser(@PathVariable int id) {
         return UserService.deleteUser(id);
     }
+    */
 
 }
