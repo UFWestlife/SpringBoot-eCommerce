@@ -1,0 +1,48 @@
+<div class="products-container">
+  <section class="products-filter-section">
+    <h4><mat-icon>filter_list</mat-icon></h4>
+    <div>
+      <h5>Brand</h5>
+      <p>
+        <mat-radio-group [(ngModel)]="filteredBrand">
+          <mat-radio-button *ngFor="let brand of brands" [value]="brand">
+            {{brand}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </p>
+    </div>
+    <div>
+      <h5>Price</h5>
+      <p fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field>
+          <input matInput type="number" placeholder="min" [(ngModel)]="min">
+        </mat-form-field>
+        <span><mat-icon>remove</mat-icon></span>
+        <mat-form-field>
+          <input matInput type="number" placeholder="max" [(ngModel)]="max">
+        </mat-form-field>
+      </p>
+      <p>
+        <button mat-button color="primary" (click)="clearFilters()">CLEAR FILTERS</button>
+      </p>
+    </div>
+  </section>
+  <section class="products-list-section">
+    <div class="products-list-container">
+      <a class="products-list-item" *ngFor="let product of products | productsPipe : filteredBrand : min : max" [routerLink]="['/products/product-detail', product.id]">
+        <div>
+          <img src="{{product.image}}" width="160" height="160" />
+        </div>
+        <div class="products-list-item-price">
+          {{product.price | currency}}
+        </div>
+        <div class="products-list-item-name products-list-item-text">
+          {{product.name}}
+        </div>
+        <div class="products-list-item-brand products-list-item-text">
+          {{product.brand}}
+        </div>
+      </a>
+    </div>
+  </section>
+</div>

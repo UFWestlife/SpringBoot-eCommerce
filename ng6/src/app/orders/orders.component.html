@@ -1,0 +1,20 @@
+<main class="container">
+  <h2>Past Orders</h2>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let order of orders">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{order.purchase_date}}
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ul>
+        <li *ngFor="let item of order.purchases">
+          {{item.product.name}} * {{item.qty}} - {{item.qty * item.product.price | currency}}
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </mat-accordion>
+</main>
+

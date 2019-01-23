@@ -2,17 +2,19 @@ package com.ecommerce.demo.bean;
 
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable, GrantedAuthority {
+public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ")
@@ -30,21 +32,20 @@ public class User implements Serializable, GrantedAuthority {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role")
-    private String role;
 
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "users_user_profile", joinColumns = {
-//            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-//            @JoinColumn(name = "user_profile_id", referencedColumnName = "id") })
 
-//    private List<UserProfile> profiles = new ArrayList<UserProfile>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_user_profile", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+            @JoinColumn(name = "user_profile_id", referencedColumnName = "id") })
+
+    private List<UserProfile> profiles = new ArrayList<UserProfile>();
 
 
-//
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//    private UserDetail userDetail;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserDetail userDetail;
 
     public User() {
         super();
@@ -84,40 +85,31 @@ public class User implements Serializable, GrantedAuthority {
         this.password = password;
     }
 
+        public List<UserProfile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<UserProfile> profiles) {
+        this.profiles = profiles;
+    }
+
+    public UserDetail getUserDetail() {
+        return userDetail;
+    }
+
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
+    }
+
     @Override
-    public String getAuthority() {
-        return role;
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", password=" + password + ", profiles=" + profiles
+                + ", userDetail=" + userDetail + "]";
     }
-
-    public void setAuthority(String role) {
-        this.role = role;
-    }
-
-    //    public List<UserProfile> getProfiles() {
-//        return profiles;
-//    }
-//
-//    public void setProfiles(List<UserProfile> profiles) {
-//        this.profiles = profiles;
-//    }
-//
-//    public UserDetail getUserDetail() {
-//        return userDetail;
-//    }
-//
-//    public void setUserDetail(UserDetail userDetail) {
-//        this.userDetail = userDetail;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "User [id=" + id + ", username=" + username + ", password=" + password + ", profiles=" + profiles
-//                + ", userDetail=" + userDetail + "]";
-//    }
 
 
     // TODO: 2019-01-15 Authorities
-    /*
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return profiles;
@@ -142,7 +134,7 @@ public class User implements Serializable, GrantedAuthority {
     public boolean isEnabled() {
         return true;
     }
-    */
+
 
 
 

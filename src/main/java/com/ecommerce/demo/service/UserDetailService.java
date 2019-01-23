@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 
 @Service
-public class UserDetailService implements UserDetailsService {
+public class UserDetailService {
 
     @Autowired
     UserDao userDao;
@@ -42,11 +42,5 @@ public class UserDetailService implements UserDetailsService {
         return new Response(true);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
-        if (user == null) throw new UsernameNotFoundException(username + " not found");
 
-        return null;
-    }
 }
