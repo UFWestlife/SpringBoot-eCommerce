@@ -32,7 +32,7 @@ public class UserController {
 
 
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<User> getUsers(){
         return userDao.findAll();

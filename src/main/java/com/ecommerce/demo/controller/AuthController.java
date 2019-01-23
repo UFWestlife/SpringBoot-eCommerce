@@ -13,7 +13,7 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-    @GetMapping("/login")
+    @GetMapping("/checklogin")
     public Response checklogin(Authentication authentication) {
         return authService.checklogin(authentication);
     }

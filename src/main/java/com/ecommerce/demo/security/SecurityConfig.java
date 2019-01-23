@@ -24,7 +24,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthenticationEntryPointImpl authenticationEntryPointImpl;
@@ -51,13 +51,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return encoder;
     }
 
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .withUser("admin")
+                .password("admin")
+                .roles("ADMIN");
+    }
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf().and()
                 .cors() // cors config.
                 .and()
                 .authorizeRequests()
-                .antMatchers("/index.html", "/products", "/products/*", "/users", "users/*").permitAll()
+                .antMatchers("/index.html", "/products", "/products/*"/*, "/users", "users/*"*/).permitAll()
 //                .antMatchers("/index.html", "/products", "/products/*").permitAll()
 //                .antMatchers("/orders", "/orders/*").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/users", "/users/*").hasAnyRole("ADMIN")

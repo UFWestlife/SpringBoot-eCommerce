@@ -1,6 +1,8 @@
 package com.ecommerce.demo.bean;
 
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements Serializable, GrantedAuthority {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ")
@@ -28,7 +30,8 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-
+    @Column(name = "role")
+    private String role;
 
 
 //    @ManyToMany(fetch = FetchType.EAGER)
@@ -51,6 +54,8 @@ public class User implements Serializable {
         this.username = username;
         this.password = password;
     }
+
+
 
     /************* Encapsulation ***********/
 
@@ -79,7 +84,16 @@ public class User implements Serializable {
         this.password = password;
     }
 
-//    public List<UserProfile> getProfiles() {
+    @Override
+    public String getAuthority() {
+        return role;
+    }
+
+    public void setAuthority(String role) {
+        this.role = role;
+    }
+
+    //    public List<UserProfile> getProfiles() {
 //        return profiles;
 //    }
 //
