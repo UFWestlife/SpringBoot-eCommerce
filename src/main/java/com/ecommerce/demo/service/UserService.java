@@ -75,7 +75,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             List<UserProfile> profiles = new ArrayList<UserProfile>();
             profiles.add(new UserProfile(user.getId()));
-//            user.setProfiles(profiles);
+            user.setProfiles(profiles);
             userDao.save(user);
             // TODO: send email. assume username is the email for now
 //            emailService.sendSimpleMessage(user.getUsername(), "Account Created", user.getUsername() + ", your account is created!");

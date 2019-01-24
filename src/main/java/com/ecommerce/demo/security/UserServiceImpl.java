@@ -20,8 +20,7 @@ public class UserServiceImpl implements UserDetailsService {
         if(user == null) {
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
-//        return user.getUserDetail();
-        return null;
+        return user;
     }
 
 }

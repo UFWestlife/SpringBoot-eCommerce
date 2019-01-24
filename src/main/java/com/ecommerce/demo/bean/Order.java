@@ -21,6 +21,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderProduct> purchases;
     @ManyToOne(fetch = FetchType.LAZY)
+
+
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;

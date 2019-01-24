@@ -28,8 +28,9 @@ public class UserDetail {
     String state;
     @Column
     String zip;
+
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     @JsonIgnore
     User user;
 

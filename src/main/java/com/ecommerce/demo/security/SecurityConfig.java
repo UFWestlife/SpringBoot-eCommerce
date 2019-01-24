@@ -52,23 +52,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("admin")
-                .password("admin")
-                .roles("ADMIN");
-    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().and()
+        http.csrf().disable()
                 .cors() // cors config.
                 .and()
                 .authorizeRequests()
-                .antMatchers("/index.html", "/products", "/products/*"/*, "/users", "users/*"*/).permitAll()
+                .antMatchers("/index.html", "/products", "/products/*").permitAll()
 //                .antMatchers("/index.html", "/products", "/products/*").permitAll()
 //                .antMatchers("/orders", "/orders/*").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/users", "/users/*").hasAnyRole("ADMIN")
