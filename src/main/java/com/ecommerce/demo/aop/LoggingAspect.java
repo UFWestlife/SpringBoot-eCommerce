@@ -21,6 +21,6 @@ public class LoggingAspect {
 
     @After("controllerMethods()")
     public void logControllerMethods(JoinPoint jp) {
-        LOGGER.info(jp.getSignature().getName() + " was invoked!");
+        LOGGER.info(jp.getSignature().getName() + " was invoked FROM Logging Aspect!");
     }
 }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("UserService")
+@Transactional
 public class UserService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);

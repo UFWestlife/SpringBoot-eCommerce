@@ -30,7 +30,7 @@ public class UserDetail {
     String zip;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     User user;
 

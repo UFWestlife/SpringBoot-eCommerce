@@ -1,6 +1,7 @@
 package com.ecommerce.demo.bean;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonDeserialize
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,18 +49,10 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserDetail userDetail;
 
-    public User() {
-        super();
-    }
-
-    public User(@NotNull @Size(min = 2, message = "username should be more than 2 characters.") String username, @NotNull String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-
 
     /************* Encapsulation ***********/
+
+
 
 
     public int getId() {
@@ -85,7 +79,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-        public List<UserProfile> getProfiles() {
+    public List<UserProfile> getProfiles() {
         return profiles;
     }
 
@@ -106,9 +100,6 @@ public class User implements UserDetails {
         return "User [id=" + id + ", username=" + username + ", password=" + password + ", profiles=" + profiles
                 + ", userDetail=" + userDetail + "]";
     }
-
-
-    // TODO: 2019-01-15 Authorities
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -134,9 +125,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-
 
 }
 

@@ -1,5 +1,6 @@
 package com.ecommerce.demo.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_profile")
+@JsonDeserialize
 public class UserProfile implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
